@@ -1,6 +1,6 @@
 import random
 
-Dict = open("Data/Dictionary.txt", encoding="utf8").readlines()
+Dict = open("Data/dictionary.txt", encoding="utf8").readlines()
 Vowels = ['а', 'о', 'и', 'ы', 'у', 'э', 'е', 'ё', 'ю', 'я']
 AccentVomels = ['а́', 'о́', 'и́', 'ы́', 'у́', 'э́', 'е́', 'ё', 'ю́', 'я́']
 

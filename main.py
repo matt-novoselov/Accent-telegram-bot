@@ -43,11 +43,11 @@ def get_cursor():
 
 
 def add_new_user_to_database(user_id, user_name):
+    cursor = get_cursor()
     try:
         # Check if user exists
         data_query = (user_id,)
         query = ("select if( exists(select* from EgeBotUsers where TelegramUserID=%s), 1, 0)")
-        cursor = get_cursor()
         cursor.execute(query, data_query)
         user_exist = cursor.fetchone()[0]
 
@@ -66,10 +66,10 @@ def add_new_user_to_database(user_id, user_name):
 
 
 def update_score(user_id, amount):
+    cursor = get_cursor()
     try:
         query = "SELECT Score FROM EgeBotUsers WHERE TelegramUserID = %s"
         data_query = (user_id,)
-        cursor = get_cursor()
         cursor.execute(query, data_query)
         CurrentScore = cursor.fetchall()[0][0]  # Get current score
         NewScore = CurrentScore + amount  # Calculate new score
@@ -97,8 +97,8 @@ async def get_support(message: types.Message):
 
 
 def get_stats(user_id):
+    cursor = get_cursor()
     try:
-        cursor = get_cursor()
         sql = "SELECT * FROM EgeBotUsers ORDER BY Score DESC LIMIT 3"
         cursor.execute(sql)
         ChartStats = cursor.fetchall()
@@ -132,7 +132,7 @@ async def get_top(message: types.Message):
 @dp.message_handler(commands=['start'])  # Run on /start command.
 async def send_welcome(message: types.Message):
     dbname = message['from']["first_name"]
-    if len(message['from']["last_name"]) > 0:
+    if message['from']["last_name"] is not None:
         dbname += f" {message['from']['last_name'][0:1]}."
 
     loop = asyncio.get_event_loop()
